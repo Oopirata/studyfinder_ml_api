@@ -5,6 +5,8 @@ import re
 import pickle
 import joblib
 import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
 import numpy as np
 
 import tensorflow as tf
