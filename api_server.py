@@ -34,7 +34,7 @@ def initialize_nlp_utils():
     from nltk.corpus import stopwords
     stop_words_indonesian = stopwords.words('indonesian')
 
-    from nltk.tokenize import word_tokenize
+    from nltk import word_tokenize
     from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
     factory = StemmerFactory()
     stemmer = factory.create_stemmer()
@@ -50,6 +50,7 @@ def preprocess_text_vak(text):
     text = re.sub(r'\d+', '', text)
     text = re.sub(r'[^\w\s]', '', text)
     text = text.strip()
+    print("Menggunakan word_tokenize dari:", word_tokenize.__module__)
     tokens = word_tokenize(text)
     tokens = [word for word in tokens if word not in stop_words_indonesian]
     tokens = [stemmer.stem(word) for word in tokens]
