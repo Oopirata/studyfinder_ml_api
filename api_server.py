@@ -4,6 +4,7 @@ import os
 import re
 import pickle
 import joblib
+import nltk
 import numpy as np
 
 import tensorflow as tf
@@ -17,27 +18,27 @@ from flask_cors import CORS # Untuk menangani CORS
 # Fungsi ini akan mencoba mengunduh data NLTK jika belum ada
 def initialize_nlp_utils():
     global stop_words_indonesian, stemmer, word_tokenize
+    import nltk
     try:
-        from nltk.corpus import stopwords
-        stop_words_indonesian = stopwords.words('indonesian')
+        nltk.data.find('tokenizers/punkt')
     except LookupError:
-        import nltk
-        print("Mengunduh NLTK stopwords...")
-        nltk.download('stopwords', quiet=True)
-        from nltk.corpus import stopwords
-        stop_words_indonesian = stopwords.words('indonesian')
+        print("Mengunduh punkt...")
+        nltk.download('punkt')
 
     try:
-        from nltk.tokenize import word_tokenize
+        nltk.data.find('corpora/stopwords')
     except LookupError:
-        import nltk
-        print("Mengunduh NLTK punkt...")
-        nltk.download('punkt', quiet=True)
-        from nltk.tokenize import word_tokenize
+        print("Mengunduh stopwords...")
+        nltk.download('stopwords')
 
+    from nltk.corpus import stopwords
+    stop_words_indonesian = stopwords.words('indonesian')
+
+    from nltk.tokenize import word_tokenize
     from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
     factory = StemmerFactory()
     stemmer = factory.create_stemmer()
+
     print("Utilitas NLP (stopwords, punkt, stemmer) siap.")
 
 # Panggil inisialisasi utilitas NLP di awal
