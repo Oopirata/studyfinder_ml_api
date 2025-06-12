@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: studyfinder-api
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python -m nltk.downloader punkt stopwords
+    startCommand: gunicorn api_server:app
+    envVars:
+      - key: PORT
+        value: 10000
